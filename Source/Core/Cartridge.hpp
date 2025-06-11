@@ -76,7 +76,7 @@ private:
     /// \return
     ///
     ///////////////////////////////////////////////////////////////////////////
-    iNESHeader ReadHeader(std::ifstream& file);
+    iNESHeader ReadAndValidateHeader(std::ifstream& file);
 };
 
 } // !namespace NES

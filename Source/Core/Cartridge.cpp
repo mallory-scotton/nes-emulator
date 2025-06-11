@@ -35,7 +35,7 @@ void Cartridge::LoadROM(const Path& filePath)
     }
 
     // Read the header
-    iNESHeader header = ReadHeader(file);
+    iNESHeader header = ReadAndValidateHeader(file);
 
     // Print ROM information
     std::cout << "ROM Info:" << std::endl;
@@ -69,7 +69,7 @@ void Cartridge::LoadROM(const Path& filePath)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-Cartridge::iNESHeader Cartridge::ReadHeader(std::ifstream& file)
+Cartridge::iNESHeader Cartridge::ReadAndValidateHeader(std::ifstream& file)
 {
     iNESHeader header;
 
