@@ -8,6 +8,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include <cstdint>
 #include <vector>
+#include <filesystem>
 
 ///////////////////////////////////////////////////////////////////////////////
 // Namespace NES
@@ -32,5 +33,6 @@ using Byte = uint8_t;
 using Address = uint16_t;
 template <typename T>
 using Rom = std::vector<T>;
+using Path = std::filesystem::path;
 
 } // !namespace NES
