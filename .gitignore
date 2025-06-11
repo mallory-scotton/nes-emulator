@@ -40,12 +40,10 @@ build/
 # Unignore AUTHORS
 !AUTHORS
 
+# Building and Assets
 Temporary/
 Build/
-
-!refs/
-!refs/README.md
-!refs/zappy_server
+Cartridges/
 
 # IDE
 .vscode/
