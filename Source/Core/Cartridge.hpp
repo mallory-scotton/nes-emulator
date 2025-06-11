@@ -18,14 +18,24 @@ namespace NES
 {
 
 ///////////////////////////////////////////////////////////////////////////////
-/// \brief
+/// \brief Cartridge class for handling NES ROMs
+///
+/// This class is responsible for loading and managing NES ROMs, including
+/// reading the iNES header, loading program and character ROM data, and
+/// determining the mapper and mirroring type. It provides functionality to
+/// read the ROM file, validate the iNES header, and store the ROM data in
+/// appropriate data structures.
 ///
 ///////////////////////////////////////////////////////////////////////////////
 class Cartridge
 {
 private:
     ///////////////////////////////////////////////////////////////////////////
-    /// \brief
+    /// \brief iNES header structure
+    ///
+    /// This structure represents the iNES header used in NES ROM files.
+    /// It contains fields for the magic number, program ROM size, character
+    /// ROM size, flags for mapper and mirroring, and other metadata.
     ///
     ///////////////////////////////////////////////////////////////////////////
     struct iNESHeader
@@ -52,28 +62,28 @@ private:
 
 public:
     ///////////////////////////////////////////////////////////////////////////
-    /// \brief
+    /// \brief Constructor for Cartridge class
     ///
-    /// \param filePath
+    /// \param filePath Path to the ROM file
     ///
     ///////////////////////////////////////////////////////////////////////////
     Cartridge(const Path& filePath);
 
 private:
     ///////////////////////////////////////////////////////////////////////////
-    /// \brief
+    /// \brief Load the ROM file and read its contents
     ///
-    /// \param filePath
+    /// \param filePath Path to the ROM file
     ///
     ///////////////////////////////////////////////////////////////////////////
     void LoadROM(const Path& filePath);
 
     ///////////////////////////////////////////////////////////////////////////
-    /// \brief
+    /// \brief Read and validate the iNES header from the ROM file
     ///
-    /// \param file
+    /// \param file The input file stream to read the header from
     ///
-    /// \return
+    /// \return The validated iNES header
     ///
     ///////////////////////////////////////////////////////////////////////////
     iNESHeader ReadAndValidateHeader(std::ifstream& file);

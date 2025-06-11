@@ -17,6 +17,16 @@ namespace NES
 ///////////////////////////////////////////////////////////////////////////////
 /// \brief Colors in RGBA (8 bit colors)
 ///
+/// This array contains 64 colors used in the NES system, represented in
+/// RGBA format (Red, Green, Blue, Alpha).
+///
+/// Each color is represented as a 32-bit unsigned integer, where the
+/// first 8 bits represent the red channel, the next 8 bits represent the
+/// green channel, the next 8 bits represent the blue channel, and the
+/// last 8 bits represent the alpha channel (opacity).
+///
+/// The colors are defined in a specific order to match the NES color palette.
+///
 ///////////////////////////////////////////////////////////////////////////////
 constexpr Uint32 NES_COLORS[64] =
 {
