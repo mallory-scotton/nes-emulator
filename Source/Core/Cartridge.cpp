@@ -17,9 +17,16 @@ Cartridge::Cartridge(const Path& filePath)
     : m_mapper(0)
     , m_mirroring(MirroringType::HORIZONTAL)
 {
+    LoadROM(filePath);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void Cartridge::LoadROM(const Path& filePath)
+{
     // Open the ROM file
     std::ifstream file(filePath, std::ios::binary);
 
+    // Check if the file was opened successfully
     if (!file.is_open())
     {
         throw std::runtime_error(
@@ -51,7 +58,6 @@ Cartridge::Cartridge(const Path& filePath)
     {
         throw std::runtime_error("Failed to read PRG ROM data.");
     }
-    std::cout << "Loaded " << programSize << " bytes of PRG data" << std::endl;
 
     // Read character ROM
     Uint32 characterSize = header.characterRomSize * 8192;
@@ -60,7 +66,6 @@ Cartridge::Cartridge(const Path& filePath)
     {
         throw std::runtime_error("Failed to read CHR ROM data.");
     }
-    std::cout << "Loaded " << characterSize << " bytes of CHR data" << std::endl;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
