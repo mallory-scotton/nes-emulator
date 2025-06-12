@@ -33,22 +33,9 @@ public:
 
 protected:
     ///////////////////////////////////////////////////////////////////////////
-    // Protected static constants
-    ///////////////////////////////////////////////////////////////////////////
-    static constexpr int PGR_BANK_SIZE = 8192; //<! 8KB
-    static constexpr int CHR_BANK_SIZE = 1024; //<! 1KB
-    static constexpr int PGR_BANK_COUNT = 4;   //<! 4 banks of 8KB each
-    static constexpr int CHR_BANK_COUNT = 8;   //<! 8 banks of 1KB each
-
-protected:
-    ///////////////////////////////////////////////////////////////////////////
     // Protected members
     ///////////////////////////////////////////////////////////////////////////
-    Rom<Byte>& m_pgr;               //<! Program ROM data
-    Rom<Byte>& m_chr;               //<! Character ROM data
-    Uint8 m_pgrRam;                 //<! Program RAM size in 8KB units
-    int m_pgrMap[PGR_BANK_COUNT];   //<! Program memory mapping
-    int m_chrMap[CHR_BANK_COUNT];   //<! Character memory mapping
+    Cartridge& m_cartridge;         //<! Reference to the cartridge
 
 public:
     ///////////////////////////////////////////////////////////////////////////

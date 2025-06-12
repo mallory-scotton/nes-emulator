@@ -11,9 +11,9 @@ namespace NES
 {
 
 ///////////////////////////////////////////////////////////////////////////////
-Mapper::Mapper(Cartridge& cartridge)
-    : m_pgr(cartridge.GetPGR())
-    , m_chr(cartridge.GetCHR())
+Mapper::Mapper(Cartridge& cartridge, Uint8 id)
+    : id(id)
+    , m_cartridge(cartridge)
 {}
 
 } // !namespace NES
