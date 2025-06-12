@@ -22,4 +22,8 @@ const Cartridge& Mapper::GetCartridge(void) const
     return (m_cartridge);
 }
 
+///////////////////////////////////////////////////////////////////////////////
+void Mapper::ScanlineIRQ(void)
+{}
+
 } // !namespace NES

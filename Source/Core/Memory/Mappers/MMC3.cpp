@@ -47,4 +47,10 @@ void MMC3::WriteCHR(Address address, Byte value)
     // TODO: Implement CHR write logic
 }
 
+///////////////////////////////////////////////////////////////////////////////
+void MMC3::ScanlineIRQ(void)
+{
+    // TODO: Implement IRQ scanline
+}
+
 } // !namespace NES::Mappers
