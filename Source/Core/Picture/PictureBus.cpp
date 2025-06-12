@@ -214,4 +214,13 @@ void PictureBus::UpdateMirroring(void)
     }
 }
 
+///////////////////////////////////////////////////////////////////////////////
+void PictureBus::ScanlineIRQ(void)
+{
+    if (m_mapper)
+    {
+        m_mapper->ScanlineIRQ();
+    }
+}
+
 } // !namespace NES
