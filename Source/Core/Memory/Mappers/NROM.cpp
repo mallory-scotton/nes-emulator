@@ -14,12 +14,12 @@ namespace NES::Mappers
 NROM::NROM(Cartridge& cartridge)
     : Mapper(cartridge, 0)
 {
-    m_oneBank = (cartridge.GetPGR().size() == KB32);
+    m_oneBank = (cartridge.GetPGR().size() == 0x4000);
     m_chrRAM.clear();
     m_usesCHRRam = (cartridge.GetCHR().size() == 0);
     if (m_usesCHRRam)
     {
-        m_chrRAM.resize(KB8, 0x00);
+        m_chrRAM.resize(0x2000, 0x00);
     }
 }
 
@@ -28,11 +28,11 @@ Byte NROM::ReadPGR(Address address)
 {
     if (!m_oneBank)
     {
-        return (m_cartridge.GetPGR()[address - KB32]);
+        return (m_cartridge.GetPGR()[address - 0x8000]);
     }
     else
     {
-        return (m_cartridge.GetPGR()[(address - KB32) & KB16]);
+        return (m_cartridge.GetPGR()[(address - 0x8000) & 0X3FFF]);
     }
 }
 

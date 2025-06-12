@@ -22,11 +22,4 @@ constexpr Uint16 NES_HEIGHT = 240;
 constexpr Uint32 CPU_FREQUENCY = 1789773;
 constexpr Uint32 PPU_FREQUENCY = CPU_FREQUENCY * 3;
 
-///////////////////////////////////////////////////////////////////////////////
-// Memory Constants
-///////////////////////////////////////////////////////////////////////////////
-#define KB32 0x8000
-#define KB16 0x3FFF
-#define KB8  0x2000
-
 } // !namespace NES
