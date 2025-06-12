@@ -134,7 +134,27 @@ void PPU::PostRenderStep(void)
 ///////////////////////////////////////////////////////////////////////////////
 void PPU::VerticalBlankStep(void)
 {
-    // TODO: Implement vertical blank logic
+    if (m_cycle == 1 && m_scanline == VISIBLE_SCANLINES + 1)
+    {
+        m_vblank = true;
+        if (m_generateInterrupt)
+        {
+            m_vblankCallback();
+        }
+    }
+
+    if (m_cycle >= SCANLINE_END_CYCLE)
+    {
+        m_scanline++;
+        m_cycle = 0;
+    }
+
+    if (m_scanline >= FRAME_END_SCANLINE)
+    {
+        m_pipelineState = State::PRE_RENDER;
+        m_scanline = 0;
+        m_evenFrame = !m_evenFrame;
+    }
 }
 
 } // !namespace NES
