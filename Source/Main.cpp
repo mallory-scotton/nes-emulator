@@ -16,6 +16,7 @@ void sfml(void)
     sf::Sprite sprite;
     sf::Shader crtShader;
     sf::RenderTexture renderTexture;
+    bool useShader = true;
 
     if (!crtShader.loadFromFile("Shaders/CRT.frag", sf::Shader::Fragment))
     {
@@ -54,6 +55,13 @@ void sfml(void)
             {
                 window.close();
             }
+            else if (event.type == sf::Event::KeyPressed)
+            {
+                if (event.key.code == sf::Keyboard::F1)
+                {
+                    useShader = !useShader;
+                }
+            }
         }
 
         // Render to texture first (your NES emulator output would go here)
@@ -70,7 +78,7 @@ void sfml(void)
 
         // Render final output with CRT shader
         window.clear(sf::Color::Black);
-        window.draw(finalSprite, &crtShader);
+        window.draw(finalSprite, useShader ? &crtShader : nullptr);
         window.display();
     }
 }
