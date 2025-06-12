@@ -15,7 +15,13 @@ namespace NES
 {
 
 ///////////////////////////////////////////////////////////////////////////////
-/// \brief
+/// \brief Picture bus class for handling PPU memory
+///
+/// This class extends the Bus class to manage the PPU's memory, including
+/// name tables, palettes, and RAM. It provides methods for reading and
+/// writing to the PPU's memory, as well as managing the mapper associated
+/// with the PPU. The PictureBus is responsible for handling the specific
+/// memory layout and mirroring required by the NES PPU.
 ///
 ///////////////////////////////////////////////////////////////////////////////
 class PictureBus : public Bus
@@ -30,59 +36,59 @@ protected:
 
 public:
     ///////////////////////////////////////////////////////////////////////////
-    /// \brief
+    /// \brief Constructor for PictureBus class
     ///
     ///////////////////////////////////////////////////////////////////////////
     PictureBus(void);
 
     ///////////////////////////////////////////////////////////////////////////
-    /// \brief
+    /// \brief Destructor for PictureBus class
     ///
     ///////////////////////////////////////////////////////////////////////////
     virtual ~PictureBus() = default;
 
 public:
     ///////////////////////////////////////////////////////////////////////////
-    /// \brief
+    /// \brief Read from the PPU memory
     ///
-    /// \param address
+    /// \param address Address to read from
     ///
-    /// \return
+    /// \return The byte read from the PPU memory
     ///
     ///////////////////////////////////////////////////////////////////////////
     virtual Byte Read(Address address) override;
 
     ///////////////////////////////////////////////////////////////////////////
-    /// \brief
+    /// \brief Write to the PPU memory
     ///
-    /// \param address
-    /// \param value
+    /// \param address Address to write to
+    /// \param value Value to write
     ///
     ///////////////////////////////////////////////////////////////////////////
     virtual void Write(Address address, Byte value) override;
 
     ///////////////////////////////////////////////////////////////////////////
-    /// \brief
+    /// \brief Set the mapper for the PictureBus
     ///
-    /// \param mapper
+    /// \param mapper Shared pointer to the mapper to set
     ///
-    /// \return
+    /// \return True if the mapper was set successfully, false otherwise
     ///
     ///////////////////////////////////////////////////////////////////////////
     virtual bool SetMapper(std::shared_ptr<Mapper> mapper) override;
 
     ///////////////////////////////////////////////////////////////////////////
-    /// \brief
+    /// \brief Read from the palette
     ///
-    /// \param address
+    /// \param address Address to read from the palette
     ///
-    /// \return
+    /// \return The byte read from the palette
     ///
     ///////////////////////////////////////////////////////////////////////////
     Byte ReadPalette(Byte address);
 
     ///////////////////////////////////////////////////////////////////////////
-    /// \brief
+    /// \brief Update the mirroring of the PPU memory
     ///
     ///////////////////////////////////////////////////////////////////////////
     void UpdateMirroring(void);

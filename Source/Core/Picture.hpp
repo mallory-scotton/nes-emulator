@@ -6,9 +6,4 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Dependencies
 ///////////////////////////////////////////////////////////////////////////////
-#include "Core/Cartridge.hpp"
-#include "Core/Colors.hpp"
-#include "Core/Enums.hpp"
-#include "Core/Memory.hpp"
-#include "Core/Picture.hpp"
-#include "Core/Shared.hpp"
+#include "Core/Picture/PictureBus.hpp"

@@ -54,13 +54,16 @@ Byte PictureBus::Read(Address address)
     }
     else if (address < 0x3EFF)
     {
+        // Calculate the index for the name tables
         const int index = (address & 0x3FF);
 
+        // Adjust the address for name tables
         if (address >= 0x3000)
         {
             address -= 0x1000;
         }
 
+        // Read from the appropriate name table or CHR memory
         if (m_nameTables[0] >= m_ram.size())
         {
             return (m_mapper->ReadCHR(address));
@@ -84,6 +87,7 @@ Byte PictureBus::Read(Address address)
     }
     else if (address < 0x3FFF)
     {
+        // Read from the palette
         Byte paletteAddress = address & 0x1F;
 
         return (ReadPalette(paletteAddress));
@@ -110,13 +114,16 @@ void PictureBus::Write(Address address, Byte value)
     }
     else if (address < 0x3EFF)
     {
+        // Calculate the index for the name tables
         const int index = address & 0x3FF;
 
+        // Adjust the address for name tables
         if (address >= 0X3000)
         {
             address -= 0x1000;
         }
 
+        // Write to the appropriate name table or CHR memory
         if (m_nameTables[0] >= m_ram.size())
         {
             m_mapper->WriteCHR(address, value);
@@ -140,12 +147,16 @@ void PictureBus::Write(Address address, Byte value)
     }
     else if (address < 0x3FFF)
     {
+        // Write to the palette
         Byte paletteAddress = address & 0X1F;
 
+        // Adjust the palette address for specific cases
         if (paletteAddress >= 0x10 && address % 4 == 0)
         {
             paletteAddress = paletteAddress & 0xF;
         }
+
+        // Write the value to the palette
         m_palette[paletteAddress] = value;
     }
 }
@@ -153,6 +164,7 @@ void PictureBus::Write(Address address, Byte value)
 ///////////////////////////////////////////////////////////////////////////////
 Byte PictureBus::ReadPalette(Byte address)
 {
+    // Picture bus is limited to 0x1F
     if (address >= 0x10 && address % 4 == 0)
     {
         address = address & 0xF;
@@ -163,6 +175,7 @@ Byte PictureBus::ReadPalette(Byte address)
 ///////////////////////////////////////////////////////////////////////////////
 void PictureBus::UpdateMirroring(void)
 {
+    // Check if the mapper is set
     if (!m_mapper)
     {
         return;
@@ -171,26 +184,31 @@ void PictureBus::UpdateMirroring(void)
     switch (m_mapper->GetCartridge().GetMirroringType())
     {
     case MirroringType::HORIZONTAL:
+        // Horizontal mirroring: Name tables 0 and 1 share the first screen,
         m_nameTables[0] = m_nameTables[1] = 0x000;
         m_nameTables[2] = m_nameTables[3] = 0x400;
         break;
     case MirroringType::VERTICAL:
+        // Vertical mirroring: Name tables 0 and 2 share the first screen,
         m_nameTables[0] = m_nameTables[2] = 0x000;
         m_nameTables[1] = m_nameTables[3] = 0x400;
         break;
     case MirroringType::LOWER_SINGLE_SCREEN:
+        // Lower single-screen mirroring
         for (int i = 0; i < 4; i++)
         {
             m_nameTables[i] = 0x000;
         }
         break;
     case MirroringType::UPPER_SINGLE_SCREEN:
+        // Upper single-screen mirroring
         for (int i = 0; i < 4; i++)
         {
             m_nameTables[i] = 0x400;
         }
         break;
     case MirroringType::FOUR_SCREEN:
+        // Four-screen mirroring: Each name table is independent
         m_nameTables[0] = m_ram.size();
         break;
     }

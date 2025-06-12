@@ -20,7 +20,12 @@ namespace NES
 class Cartridge;
 
 ///////////////////////////////////////////////////////////////////////////////
-/// \brief
+/// \brief Mapper class for handling memory mapping
+///
+/// This class serves as a base for all mappers used in the NES system.
+/// It provides an interface for reading and writing to program and character
+/// memory, and it holds a reference to the cartridge that it is associated
+/// with.
 ///
 ///////////////////////////////////////////////////////////////////////////////
 class Mapper
@@ -39,57 +44,57 @@ protected:
 
 public:
     ///////////////////////////////////////////////////////////////////////////
-    /// \brief
+    /// \brief Constructor for Mapper class
     ///
-    /// \param cartridge
-    /// \param id
+    /// \param cartridge Reference to the cartridge
+    /// \param id Mapper ID
     ///
     ///////////////////////////////////////////////////////////////////////////
     Mapper(Cartridge& cartridge, Uint8 id);
 
 public:
     ///////////////////////////////////////////////////////////////////////////
-    /// \brief
+    /// \brief Read program memory (PGR)
     ///
-    /// \param address
+    /// \param address Address to read from
     ///
-    /// \return
+    /// \return The byte read from program memory
     ///
     ///////////////////////////////////////////////////////////////////////////
     virtual Byte ReadPGR(Address address) = 0;
 
     ///////////////////////////////////////////////////////////////////////////
-    /// \brief
+    /// \brief Write to program memory (PGR)
     ///
-    /// \param address
-    /// \param value
+    /// \param address Address to write to
+    /// \param value Value to write
     ///
     ///////////////////////////////////////////////////////////////////////////
     virtual void WritePGR(Address address, Byte value) = 0;
 
     ///////////////////////////////////////////////////////////////////////////
-    /// \brief
+    /// \brief Read character memory (CHR)
     ///
-    /// \param address
+    /// \param address Address to read from
     ///
-    /// \return
+    /// \return The byte read from character memory
     ///
     ///////////////////////////////////////////////////////////////////////////
     virtual Byte ReadCHR(Address address) = 0;
 
     ///////////////////////////////////////////////////////////////////////////
-    /// \brief
+    /// \brief Write to character memory (CHR)
     ///
-    /// \param address
-    /// \param value
+    /// \param address Address to write to
+    /// \param value Value to write
     ///
     ///////////////////////////////////////////////////////////////////////////
     virtual void WriteCHR(Address address, Byte value) = 0;
 
     ///////////////////////////////////////////////////////////////////////////
-    /// \brief
+    /// \brief Get the cartridge associated with this mapper
     ///
-    /// \return
+    /// \return Reference to the cartridge
     ///
     ///////////////////////////////////////////////////////////////////////////
     const Cartridge& GetCartridge(void) const;
