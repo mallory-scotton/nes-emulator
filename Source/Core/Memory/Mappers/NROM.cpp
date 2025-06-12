@@ -2,7 +2,6 @@
 // Dependencies
 ///////////////////////////////////////////////////////////////////////////////
 #include "Core/Memory/Mappers/NROM.hpp"
-#include "Utils/Constants.hpp"
 #include "Core/Cartridge.hpp"
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -40,7 +39,8 @@ Byte NROM::ReadPGR(Uint16 address)
 ///////////////////////////////////////////////////////////////////////////////
 void NROM::WritePGR(Uint16 address, Byte value)
 {
-    (void)address; (void)value;
+    NES_UNUSED(address);
+    NES_UNUSED(value);
     // NROM does not support writing to PGR memory
 }
 

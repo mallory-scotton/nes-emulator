@@ -2,7 +2,7 @@
 // Dependencies
 ///////////////////////////////////////////////////////////////////////////////
 #include "Core/Cartridge.hpp"
-#include "Utils/Constants.hpp"
+#include "Utils.hpp"
 #include <stdexcept>
 #include <fstream>
 #include <iostream>
