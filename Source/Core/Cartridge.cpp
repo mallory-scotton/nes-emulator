@@ -2,6 +2,7 @@
 // Dependencies
 ///////////////////////////////////////////////////////////////////////////////
 #include "Core/Cartridge.hpp"
+#include "Utils/Constants.hpp"
 #include <stdexcept>
 #include <fstream>
 #include <iostream>
@@ -52,7 +53,7 @@ void Cartridge::LoadROM(const Path& filePath)
         ) << std::endl;
 
     // Read program ROM
-    Uint32 programSize = header.pgrSize * 16384;
+    Uint32 programSize = header.pgrSize * KB16;
     m_pgr.resize(programSize);
     if (!file.read(reinterpret_cast<char*>(m_pgr.data()), programSize))
     {
@@ -60,7 +61,7 @@ void Cartridge::LoadROM(const Path& filePath)
     }
 
     // Read character ROM
-    Uint32 characterSize = header.chrSize * 8192;
+    Uint32 characterSize = header.chrSize * KB8;
     m_chr.resize(characterSize);
     if (!file.read(reinterpret_cast<char*>(m_chr.data()), characterSize))
     {
