@@ -11,3 +11,5 @@
 #include "Core/Memory/Mappers/MMC3.hpp"
 #include "Core/Memory/Mappers/UxROM.hpp"
 #include "Core/Memory/Mappers/NROM.hpp"
+#include "Core/Memory/Mappers/AxROM.hpp"
+#include "Core/Memory/Mappers/GxROM.hpp"
