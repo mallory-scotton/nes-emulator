@@ -36,7 +36,7 @@ vec3 ToSrgb(vec3 c)
 // Emulated input resolution
 vec2 res()
 {
-  return resolution / 2.0; // 6.0
+  return resolution / 3.0; // 6.0
 }
 
 // Fetch sample with offset
