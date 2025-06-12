@@ -5,11 +5,11 @@ uniform vec2 resolution;
 uniform float time;
 
 // Shader parameters
-const float hardScan = -8.0;
-const float hardPix = -3.0;
-const vec2 warp = vec2(1.0/32.0, 1.0/24.0);
-const float maskDark = 0.5;
-const float maskLight = 1.5;
+const float hardScan = -12.0; //-8.0
+const float hardPix = -2.0; // -3.0
+const vec2 warp = vec2(1.0/64.0, 1.0/48.0); // vec2(1.0/32.0, 1.0/24.0)
+const float maskDark = 0.75; // 0.5
+const float maskLight = 1.2; // 1.5
 
 // sRGB to Linear
 float ToLinear1(float c)
@@ -36,7 +36,7 @@ vec3 ToSrgb(vec3 c)
 // Emulated input resolution
 vec2 res()
 {
-  return resolution / 6.0;
+  return resolution / 2.0; // 6.0
 }
 
 // Fetch sample with offset
