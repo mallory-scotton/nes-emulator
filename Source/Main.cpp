@@ -11,12 +11,21 @@
 
 void sfml(void)
 {
-    sf::RenderWindow window(sf::VideoMode(NES::NES_WIDTH * 3, NES::NES_HEIGHT * 3), "NES Emulator", sf::Style::Default);
+    sf::RenderWindow window(
+        sf::VideoMode(NES::NES_WIDTH * 3, NES::NES_HEIGHT * 3),
+        "NES Emulator"
+    );
     sf::Texture texture;
     sf::Sprite sprite;
     sf::Shader crtShader;
     sf::RenderTexture renderTexture;
     bool useShader = true;
+
+    NES::PictureBus pbus;
+    NES::PPU ppu(pbus);
+
+    texture.create(NES::NES_WIDTH, NES::NES_HEIGHT);
+    sprite.setTexture(texture);
 
     if (!crtShader.loadFromFile("Shaders/CRT.frag", sf::Shader::Fragment))
     {
@@ -27,16 +36,6 @@ void sfml(void)
     if (!renderTexture.create(NES::NES_WIDTH, NES::NES_HEIGHT))
     {
         std::cerr << "Failed to create render texture!" << std::endl;
-        return;
-    }
-
-    if (texture.loadFromFile("image.png"))
-    {
-        sprite.setTexture(texture);
-    }
-    else
-    {
-        std::cerr << "Failed to load sprite texture!" << std::endl;
         return;
     }
 
@@ -63,6 +62,9 @@ void sfml(void)
                 }
             }
         }
+
+        // Update PPU screen with the latest frame
+        texture.update(ppu.GetScreen().data());
 
         // Render to texture first (your NES emulator output would go here)
         renderTexture.clear(sf::Color::Black);

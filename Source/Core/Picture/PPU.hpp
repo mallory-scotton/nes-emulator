@@ -1,0 +1,115 @@
+///////////////////////////////////////////////////////////////////////////////
+// Header guard
+///////////////////////////////////////////////////////////////////////////////
+#pragma once
+
+///////////////////////////////////////////////////////////////////////////////
+// Dependencies
+///////////////////////////////////////////////////////////////////////////////
+#include "Core/Picture/PictureBus.hpp"
+#include "Utils.hpp"
+#include <functional>
+#include <vector>
+
+///////////////////////////////////////////////////////////////////////////////
+// Namespace NES
+///////////////////////////////////////////////////////////////////////////////
+namespace NES
+{
+
+///////////////////////////////////////////////////////////////////////////////
+/// \brief PPU (Picture Processing Unit) class
+///
+/// This class represents the Picture Processing Unit of the NES console.
+/// It is responsible for rendering graphics and managing the display output.
+///
+///////////////////////////////////////////////////////////////////////////////
+class PPU
+{
+private:
+    ///////////////////////////////////////////////////////////////////////////
+    /// \brief Enumeration for the PPU pipeline states
+    ///
+    ///////////////////////////////////////////////////////////////////////////
+    enum class State
+    {
+        PRE_RENDER,     //<! Pre-render state
+        RENDER,         //<! Render state
+        POST_RENDER,    //<! Post-render state
+        VERTICAL_BLANK  //<! Vertical blank state
+    };
+
+    ///////////////////////////////////////////////////////////////////////////
+    /// \brief Enumeration for character pages
+    ///
+    ///////////////////////////////////////////////////////////////////////////
+    enum class CharacterPage
+    {
+        LOW,        //<! Low character page
+        HIGH        //<! High character page
+    };
+
+private:
+    ///////////////////////////////////////////////////////////////////////////
+    // Private constants
+    ///////////////////////////////////////////////////////////////////////////
+    constexpr static int SCANLINE_CYCLE_LENGTH = 341;
+    constexpr static int SCANLINE_END_CYCLE = 340;
+    constexpr static int VISIBLE_SCANLINES = 240;
+    constexpr static int SCANLINE_VISIBLE_DOTS = 256;
+    constexpr static int FRAME_END_SCANLINE = 261;
+    constexpr static int ATTRIBUTE_OFFSET = 0x3C0;
+
+private:
+    ///////////////////////////////////////////////////////////////////////////
+    // Private members
+    ///////////////////////////////////////////////////////////////////////////
+    PictureBus& m_bus;
+    std::vector<Byte> m_screen;
+    std::function<void(void)> m_vblankCallback;
+    std::vector<Byte> m_spriteMemory;
+    std::vector<Byte> m_scanlineSprites;
+    State m_pipelineState;
+    int m_cycle;
+    int m_scanline;
+    bool m_evenFrame;
+    bool m_vblank;
+    bool m_sprZeroHit;
+    bool m_spriteOverflow;
+    Address m_dataAddress;
+    Address m_tempAddress;
+    Byte m_fineXScroll;
+    bool m_firstWrite;
+    Byte m_dataBuffer;
+    Byte m_spriteDataAddress;
+    bool m_longSprites;
+    bool m_generateInterrupt;
+    bool m_greyscaleMode;
+    bool m_showSprites;
+    bool m_showBackground;
+    bool m_hideEdgeSprites;
+    bool m_hideEdgeBackground;
+    CharacterPage m_bgPage;
+    CharacterPage m_sprPage;
+    Address m_dataAddrIncrement;
+
+public:
+    ///////////////////////////////////////////////////////////////////////////
+    /// \brief Constructor for PPU class
+    ///
+    /// \param bus Reference to the PictureBus instance
+    ///
+    ///////////////////////////////////////////////////////////////////////////
+    PPU(PictureBus& bus);
+
+public:
+    ///////////////////////////////////////////////////////////////////////////
+    /// \brief Get the current screen buffer
+    ///
+    /// \return A constant reference to the screen buffer vector
+    ///
+    ///////////////////////////////////////////////////////////////////////////
+    const std::vector<Byte>& GetScreen(void) const;
+};
+
+} // !namespace NES
