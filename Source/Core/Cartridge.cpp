@@ -159,7 +159,7 @@ Uint8 Cartridge::GetMapper(void) const
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-MirroringType Cartridge::GetMirroring(void) const
+MirroringType Cartridge::GetMirroringType(void) const
 {
     return (m_mirroring);
 }
