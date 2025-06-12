@@ -16,7 +16,7 @@ MMC1::MMC1(Cartridge& cartridge)
 {}
 
 ///////////////////////////////////////////////////////////////////////////////
-Byte MMC1::ReadPGR(Uint16 address)
+Byte MMC1::ReadPGR(Address address)
 {
     NES_UNUSED(address);
     // TODO: Implement PGR read logic
@@ -24,7 +24,7 @@ Byte MMC1::ReadPGR(Uint16 address)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void MMC1::WritePGR(Uint16 address, Byte value)
+void MMC1::WritePGR(Address address, Byte value)
 {
     NES_UNUSED(address);
     NES_UNUSED(value);
@@ -32,7 +32,7 @@ void MMC1::WritePGR(Uint16 address, Byte value)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-Byte MMC1::ReadCHR(Uint16 address)
+Byte MMC1::ReadCHR(Address address)
 {
     NES_UNUSED(address);
     // TODO: Implement CHR read logic
@@ -40,7 +40,7 @@ Byte MMC1::ReadCHR(Uint16 address)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void MMC1::WriteCHR(Uint16 address, Byte value)
+void MMC1::WriteCHR(Address address, Byte value)
 {
     NES_UNUSED(address);
     NES_UNUSED(value);

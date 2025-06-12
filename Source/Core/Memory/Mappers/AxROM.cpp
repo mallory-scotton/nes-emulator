@@ -16,7 +16,7 @@ AxROM::AxROM(Cartridge& cartridge)
 {}
 
 ///////////////////////////////////////////////////////////////////////////////
-Byte AxROM::ReadPGR(Uint16 address)
+Byte AxROM::ReadPGR(Address address)
 {
     NES_UNUSED(address);
     // TODO: Implement PGR read logic
@@ -24,7 +24,7 @@ Byte AxROM::ReadPGR(Uint16 address)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void AxROM::WritePGR(Uint16 address, Byte value)
+void AxROM::WritePGR(Address address, Byte value)
 {
     NES_UNUSED(address);
     NES_UNUSED(value);
@@ -32,7 +32,7 @@ void AxROM::WritePGR(Uint16 address, Byte value)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-Byte AxROM::ReadCHR(Uint16 address)
+Byte AxROM::ReadCHR(Address address)
 {
     NES_UNUSED(address);
     // TODO: Implement CHR read logic
@@ -40,7 +40,7 @@ Byte AxROM::ReadCHR(Uint16 address)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void AxROM::WriteCHR(Uint16 address, Byte value)
+void AxROM::WriteCHR(Address address, Byte value)
 {
     NES_UNUSED(address);
     NES_UNUSED(value);

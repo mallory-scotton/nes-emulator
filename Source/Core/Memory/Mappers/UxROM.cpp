@@ -16,7 +16,7 @@ UxROM::UxROM(Cartridge& cartridge)
 {}
 
 ///////////////////////////////////////////////////////////////////////////////
-Byte UxROM::ReadPGR(Uint16 address)
+Byte UxROM::ReadPGR(Address address)
 {
     NES_UNUSED(address);
     // TODO: Implement PGR read logic
@@ -24,7 +24,7 @@ Byte UxROM::ReadPGR(Uint16 address)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void UxROM::WritePGR(Uint16 address, Byte value)
+void UxROM::WritePGR(Address address, Byte value)
 {
     NES_UNUSED(address);
     NES_UNUSED(value);
@@ -32,7 +32,7 @@ void UxROM::WritePGR(Uint16 address, Byte value)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-Byte UxROM::ReadCHR(Uint16 address)
+Byte UxROM::ReadCHR(Address address)
 {
     NES_UNUSED(address);
     // TODO: Implement CHR read logic
@@ -40,7 +40,7 @@ Byte UxROM::ReadCHR(Uint16 address)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void UxROM::WriteCHR(Uint16 address, Byte value)
+void UxROM::WriteCHR(Address address, Byte value)
 {
     NES_UNUSED(address);
     NES_UNUSED(value);

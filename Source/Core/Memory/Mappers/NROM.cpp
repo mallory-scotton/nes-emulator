@@ -24,7 +24,7 @@ NROM::NROM(Cartridge& cartridge)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-Byte NROM::ReadPGR(Uint16 address)
+Byte NROM::ReadPGR(Address address)
 {
     if (!m_oneBank)
     {
@@ -37,7 +37,7 @@ Byte NROM::ReadPGR(Uint16 address)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void NROM::WritePGR(Uint16 address, Byte value)
+void NROM::WritePGR(Address address, Byte value)
 {
     NES_UNUSED(address);
     NES_UNUSED(value);
@@ -45,7 +45,7 @@ void NROM::WritePGR(Uint16 address, Byte value)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-Byte NROM::ReadCHR(Uint16 address)
+Byte NROM::ReadCHR(Address address)
 {
     if (m_usesCHRRam)
     {
@@ -58,7 +58,7 @@ Byte NROM::ReadCHR(Uint16 address)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void NROM::WriteCHR(Uint16 address, Byte value)
+void NROM::WriteCHR(Address address, Byte value)
 {
     // NROM does not support writing to CHR memory if it does not use CHR RAM
     if (m_usesCHRRam)
