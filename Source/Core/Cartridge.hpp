@@ -40,25 +40,25 @@ private:
     ///////////////////////////////////////////////////////////////////////////
     struct iNESHeader
     {
-        char magic[4];              //<! NES magic code
-        Uint8 programRomSize;       //<! PRG ROM size in 16KB units
-        Uint8 characterRomSize;     //<! CHR ROM size in 8KB units
-        Uint8 flags6;               //<! Mapper, mirroring, battery, trainer
-        Uint8 flags7;               //<! Mapper, VS/PlayChoice, NES 2.0
-        Uint8 flags8;               //<! PRG-RAM size
-        Uint8 flags9;               //<! TV system
-        Uint8 flags10;              //<! TV system, PRG-RAM presence
-        char padding[5];            //<! Unused padding
+        char magic[4];          //<! NES magic code
+        Uint8 pgrSize;          //<! PRG ROM size in 16KB units
+        Uint8 chrSize;          //<! CHR ROM size in 8KB units
+        Uint8 flags6;           //<! Mapper, mirroring, battery, trainer
+        Uint8 flags7;           //<! Mapper, VS/PlayChoice, NES 2.0
+        Uint8 flags8;           //<! PRG-RAM size
+        Uint8 flags9;           //<! TV system
+        Uint8 flags10;          //<! TV system, PRG-RAM presence
+        char padding[5];        //<! Unused padding
     };
 
 private:
     ///////////////////////////////////////////////////////////////////////////
     // Private properties
     ///////////////////////////////////////////////////////////////////////////
-    Rom<Byte> m_programRom;         //<! Program ROM data
-    Rom<Byte> m_characterRom;       //<! Character ROM data
-    Uint8 m_mapper;                 //<! Mapper number
-    MirroringType m_mirroring;      //<! Mirroring type
+    Rom<Byte> m_pgr;            //<! Program ROM data
+    Rom<Byte> m_chr;            //<! Character ROM data
+    Uint8 m_mapper;             //<! Mapper number
+    MirroringType m_mirroring;  //<! Mirroring type
 
 public:
     ///////////////////////////////////////////////////////////////////////////

@@ -39,8 +39,8 @@ void Cartridge::LoadROM(const Path& filePath)
 
     // Print ROM information
     std::cout << "ROM Info:" << std::endl;
-    std::cout << "PRG ROM: " << header.programRomSize*16 << "KB" << std::endl;
-    std::cout << "CHR ROM: " << header.characterRomSize*8 << "KB" << std::endl;
+    std::cout << "PRG ROM: " << header.pgrSize * 16 << "KB" << std::endl;
+    std::cout << "CHR ROM: " << header.chrSize * 8 << "KB" << std::endl;
     std::cout << "Mapper: " << (int)m_mapper << std::endl;
     std::cout << "Mirroring: " << (m_mirroring == MirroringType::HORIZONTAL
         ? "Horizontal"
@@ -52,17 +52,17 @@ void Cartridge::LoadROM(const Path& filePath)
         ) << std::endl;
 
     // Read program ROM
-    Uint32 programSize = header.programRomSize * 16384;
-    m_programRom.resize(programSize);
-    if (!file.read(reinterpret_cast<char*>(m_programRom.data()), programSize))
+    Uint32 programSize = header.pgrSize * 16384;
+    m_pgr.resize(programSize);
+    if (!file.read(reinterpret_cast<char*>(m_pgr.data()), programSize))
     {
         throw std::runtime_error("Failed to read PRG ROM data.");
     }
 
     // Read character ROM
-    Uint32 characterSize = header.characterRomSize * 8192;
-    m_characterRom.resize(characterSize);
-    if (!file.read(reinterpret_cast<char*>(m_characterRom.data()), characterSize))
+    Uint32 characterSize = header.chrSize * 8192;
+    m_chr.resize(characterSize);
+    if (!file.read(reinterpret_cast<char*>(m_chr.data()), characterSize))
     {
         throw std::runtime_error("Failed to read CHR ROM data.");
     }
