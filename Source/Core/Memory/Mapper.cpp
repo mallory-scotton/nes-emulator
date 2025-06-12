@@ -16,4 +16,10 @@ Mapper::Mapper(Cartridge& cartridge, Uint8 id)
     , m_cartridge(cartridge)
 {}
 
+///////////////////////////////////////////////////////////////////////////////
+const Cartridge& Mapper::GetCartridge(void) const
+{
+    return (m_cartridge);
+}
+
 } // !namespace NES
