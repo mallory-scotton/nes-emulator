@@ -2,11 +2,78 @@
 // Dependencies
 ///////////////////////////////////////////////////////////////////////////////
 #include "Core/Cartridge.hpp"
+#include "Utils/Constants.hpp"
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <SFML/System.hpp>
 #include <SFML/Audio.hpp>
 #include <iostream>
+
+void sfml(void)
+{
+    sf::RenderWindow window(sf::VideoMode(NES::NES_WIDTH * 3, NES::NES_HEIGHT * 3), "NES Emulator", sf::Style::Default);
+    sf::Texture texture;
+    sf::Sprite sprite;
+    sf::Shader crtShader;
+    sf::RenderTexture renderTexture;
+
+    if (!crtShader.loadFromFile("Shaders/CRT.frag", sf::Shader::Fragment))
+    {
+        std::cerr << "Failed to load CRT shader!" << std::endl;
+        return;
+    }
+
+    if (!renderTexture.create(NES::NES_WIDTH, NES::NES_HEIGHT))
+    {
+        std::cerr << "Failed to create render texture!" << std::endl;
+        return;
+    }
+
+    if (texture.loadFromFile("image.png"))
+    {
+        sprite.setTexture(texture);
+    }
+    else
+    {
+        std::cerr << "Failed to load sprite texture!" << std::endl;
+        return;
+    }
+
+    window.setFramerateLimit(60);
+
+    sf::Sprite finalSprite;
+    finalSprite.setTexture(renderTexture.getTexture());
+    finalSprite.setScale(3.0f, 3.0f);
+
+    while (window.isOpen())
+    {
+        sf::Event event;
+        while (window.pollEvent(event))
+        {
+            if (event.type == sf::Event::Closed)
+            {
+                window.close();
+            }
+        }
+
+        // Render to texture first (your NES emulator output would go here)
+        renderTexture.clear(sf::Color::Black);
+        renderTexture.draw(sprite);
+        renderTexture.display();
+
+        // Set up shader uniforms
+        crtShader.setUniform("texture", renderTexture.getTexture());
+        crtShader.setUniform("resolution", sf::Vector2f(
+            static_cast<float>(window.getSize().x),
+            static_cast<float>(window.getSize().y)
+        ));
+
+        // Render final output with CRT shader
+        window.clear(sf::Color::Black);
+        window.draw(finalSprite, &crtShader);
+        window.display();
+    }
+}
 
 ///////////////////////////////////////////////////////////////////////////////
 int main(int argc, char *argv[])
@@ -27,5 +94,8 @@ int main(int argc, char *argv[])
         std::cerr << "Error: " << e.what() << std::endl;
         return (1);
     }
+
+    sfml();
+
     return (0);
 }
