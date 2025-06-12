@@ -18,28 +18,32 @@ CNROM::CNROM(Cartridge& cartridge)
 ///////////////////////////////////////////////////////////////////////////////
 Byte CNROM::ReadPGR(Uint16 address)
 {
-    (void)address;
+    NES_UNUSED(address);
     // TODO: Implement PGR read logic
+    return (0x00);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 void CNROM::WritePGR(Uint16 address, Byte value)
 {
-    (void)address; (void)value;
+    NES_UNUSED(address);
+    NES_UNUSED(value);
     // TODO: Implement PGR write logic
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 Byte CNROM::ReadCHR(Uint16 address)
 {
-    (void)address;
+    NES_UNUSED(address);
     // TODO: Implement CHR read logic
+    return (0x00);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 void CNROM::WriteCHR(Uint16 address, Byte value)
 {
-    (void)address; (void)value;
+    NES_UNUSED(address);
+    NES_UNUSED(value);
     // TODO: Implement CHR write logic
 }
 

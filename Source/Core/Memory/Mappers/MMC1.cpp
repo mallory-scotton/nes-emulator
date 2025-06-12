@@ -18,28 +18,32 @@ MMC1::MMC1(Cartridge& cartridge)
 ///////////////////////////////////////////////////////////////////////////////
 Byte MMC1::ReadPGR(Uint16 address)
 {
-    (void)address;
+    NES_UNUSED(address);
     // TODO: Implement PGR read logic
+    return (0x00);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 void MMC1::WritePGR(Uint16 address, Byte value)
 {
-    (void)address; (void)value;
+    NES_UNUSED(address);
+    NES_UNUSED(value);
     // TODO: Implement PGR write logic
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 Byte MMC1::ReadCHR(Uint16 address)
 {
-    (void)address;
+    NES_UNUSED(address);
     // TODO: Implement CHR read logic
+    return (0x00);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 void MMC1::WriteCHR(Uint16 address, Byte value)
 {
-    (void)address; (void)value;
+    NES_UNUSED(address);
+    NES_UNUSED(value);
     // TODO: Implement CHR write logic
 }
 

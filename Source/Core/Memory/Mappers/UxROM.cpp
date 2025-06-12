@@ -18,28 +18,32 @@ UxROM::UxROM(Cartridge& cartridge)
 ///////////////////////////////////////////////////////////////////////////////
 Byte UxROM::ReadPGR(Uint16 address)
 {
-    (void)address;
+    NES_UNUSED(address);
     // TODO: Implement PGR read logic
+    return (0x00);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 void UxROM::WritePGR(Uint16 address, Byte value)
 {
-    (void)address; (void)value;
+    NES_UNUSED(address);
+    NES_UNUSED(value);
     // TODO: Implement PGR write logic
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 Byte UxROM::ReadCHR(Uint16 address)
 {
-    (void)address;
+    NES_UNUSED(address);
     // TODO: Implement CHR read logic
+    return (0x00);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 void UxROM::WriteCHR(Uint16 address, Byte value)
 {
-    (void)address; (void)value;
+    NES_UNUSED(address);
+    NES_UNUSED(value);
     // TODO: Implement CHR write logic
 }
 
