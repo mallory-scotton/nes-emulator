@@ -66,6 +66,7 @@ private:
     ///////////////////////////////////////////////////////////////////////////
     PictureBus& m_bus;
     std::vector<Byte> m_screen;
+    std::vector<Byte> m_buffer;
     std::function<void(void)> m_vblankCallback;
     std::vector<Byte> m_spriteMemory;
     std::vector<Byte> m_scanlineSprites;

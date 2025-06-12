@@ -13,6 +13,7 @@ namespace NES
 PPU::PPU(PictureBus& bus)
     : m_bus(bus)
     , m_screen(SCANLINE_VISIBLE_DOTS * VISIBLE_SCANLINES * 4, 0xFF)
+    , m_buffer(SCANLINE_VISIBLE_DOTS * VISIBLE_SCANLINES * 4, 0xFF)
     , m_spriteMemory(256, 0x00)
 {
     for (int x = 0; x < SCANLINE_VISIBLE_DOTS; x++)
@@ -20,9 +21,13 @@ PPU::PPU(PictureBus& bus)
         for (int y = 0; y < VISIBLE_SCANLINES; y++)
         {
             m_screen[(y * SCANLINE_VISIBLE_DOTS + x) * 4 + 0] = 0xFF; // R
+            m_buffer[(y * SCANLINE_VISIBLE_DOTS + x) * 4 + 0] = 0xFF; // R
             m_screen[(y * SCANLINE_VISIBLE_DOTS + x) * 4 + 1] = 0x00; // G
+            m_buffer[(y * SCANLINE_VISIBLE_DOTS + x) * 4 + 1] = 0x00; // G
             m_screen[(y * SCANLINE_VISIBLE_DOTS + x) * 4 + 2] = 0xFF; // B
+            m_buffer[(y * SCANLINE_VISIBLE_DOTS + x) * 4 + 2] = 0xFF; // B
             m_screen[(y * SCANLINE_VISIBLE_DOTS + x) * 4 + 3] = 0xFF; // A
+            m_buffer[(y * SCANLINE_VISIBLE_DOTS + x) * 4 + 3] = 0xFF; // A
         }
     }
 }
@@ -128,14 +133,30 @@ void PPU::RenderStep(void)
 ///////////////////////////////////////////////////////////////////////////////
 void PPU::PostRenderStep(void)
 {
-    // TODO: Implement post-render logic
+    // Check if we are at the end of the scanline
+    if (m_cycle >= SCANLINE_END_CYCLE)
+    {
+        // If we are at the last visible scanline,
+        // switch to vertical blank state
+        m_scanline++;
+        m_cycle = 0;
+        m_pipelineState = State::VERTICAL_BLANK;
+
+        // If we are at the last scanline, copy the buffer to the screen
+        for (size_t i = 0; i < m_buffer.size(); i++)
+        {
+            m_screen[i] = m_buffer[i];
+        }
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 void PPU::VerticalBlankStep(void)
 {
+    // If we are in the vertical blank state, we need to handle the scanline
     if (m_cycle == 1 && m_scanline == VISIBLE_SCANLINES + 1)
     {
+        // Set the vertical blank flag
         m_vblank = true;
         if (m_generateInterrupt)
         {
@@ -143,14 +164,17 @@ void PPU::VerticalBlankStep(void)
         }
     }
 
+    // If we are at the end of the vertical blank scanline
     if (m_cycle >= SCANLINE_END_CYCLE)
     {
         m_scanline++;
         m_cycle = 0;
     }
 
+    // If we have reached the end of the frame
     if (m_scanline >= FRAME_END_SCANLINE)
     {
+        // Reset the scanline and cycle to start a new frame
         m_pipelineState = State::PRE_RENDER;
         m_scanline = 0;
         m_evenFrame = !m_evenFrame;
