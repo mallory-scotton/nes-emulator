@@ -6,11 +6,5 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Dependencies
 ///////////////////////////////////////////////////////////////////////////////
-#include "Core/Cartridge.hpp"
-#include "Core/Colors.hpp"
-#include "Core/Enums.hpp"
-#include "Core/Memory.hpp"
-#include "Core/Picture.hpp"
-#include "Core/Shared.hpp"
-#include "Core/Processor.hpp"
-#include "Core/Audio.hpp"
+#include "Core/Processor/MainBus.hpp"
+#include "Core/Processor/CPU.hpp"
