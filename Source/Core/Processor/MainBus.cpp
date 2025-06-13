@@ -2,6 +2,7 @@
 // Dependencies
 ///////////////////////////////////////////////////////////////////////////////
 #include "Core/Processor/MainBus.hpp"
+#include <iostream>
 
 ///////////////////////////////////////////////////////////////////////////////
 // Namespace NES
@@ -19,7 +20,7 @@ MainBus::MainBus(
 )
     : m_ram(0x800, 0x00)
     , m_extRam(0x2000, 0x00)
-    , m_dmaCallback(std::move(callback))
+    , m_dmaCallback(callback)
     , m_ppu(ppu)
     , m_apu(apu)
     , m_controller1(controller1)
@@ -49,7 +50,7 @@ Byte MainBus::Read(Address address)
         address = NormalizeMirror(address);
         switch (static_cast<Register>(address))
         {
-        case PPU_CTRL:
+        case PPU_STATUS:
             return (m_ppu.GetStatus());
         case PPU_DATA:
             return (m_ppu.GetData());
