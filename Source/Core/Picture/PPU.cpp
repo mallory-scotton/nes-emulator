@@ -401,4 +401,127 @@ void PPU::VerticalBlankStep(void)
     }
 }
 
+///////////////////////////////////////////////////////////////////////////////
+void PPU::SetVBlankCallback(std::function<void(void)> callback)
+{
+    m_vblankCallback = std::move(callback);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void PPU::Control(Byte control)
+{
+    m_generateInterrupt = control & 0x80;
+    m_longSprites = control & 0x20;
+    m_bgPage = static_cast<CharacterPage>(!!(control & 0x10));
+    m_sprPage = static_cast<CharacterPage>(!!(control & 0x8));
+
+    if (control & 0x4)
+    {
+        m_dataAddrIncrement = 0x20;
+    }
+    else
+    {
+        m_dataAddrIncrement = 1;
+    }
+
+    m_tempAddress &= ~0xC00;
+    m_tempAddress |= (control & 0x3) << 10;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void PPU::SetMask(Byte mask)
+{
+    m_greyscaleMode = mask & 0x1;
+    m_hideEdgeBackground = !(mask & 0x2);
+    m_hideEdgeSprites = !(mask & 0x4);
+    m_showBackground = mask & 0x8;
+    m_showSprites = mask & 0x10;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void PPU::SetOAMAdress(Byte address)
+{
+    m_spriteDataAddress = address;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void PPU::SetDataAddress(Byte address)
+{
+    if (m_firstWrite)
+    {
+        m_tempAddress &= ~0xFF00;
+        m_tempAddress |= (address & 0x3F) << 8;
+        m_firstWrite = false;
+    }
+    else
+    {
+        m_tempAddress &= ~0xFF;
+        m_tempAddress |= address;
+        m_dataAddress = m_tempAddress;
+        m_firstWrite = true;
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void PPU::SetScroll(Byte scroll)
+{
+    if (m_firstWrite)
+    {
+        m_tempAddress &= ~0x1F;
+        m_tempAddress |= (scroll >> 3) & 0x1F;
+        m_fineXScroll  = scroll & 0x7;
+        m_firstWrite = false;
+    }
+    else
+    {
+        m_tempAddress &= ~0x73E0;
+        m_tempAddress |= ((scroll & 0x7) << 12) | ((scroll & 0xF8) << 2);
+        m_firstWrite = true;
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void PPU::SetData(Byte data)
+{
+    m_bus.Write(m_dataAddress, data);
+    m_dataAddress += m_dataAddrIncrement;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void PPU::SetOAMData(Byte data)
+{
+    m_spriteMemory[(m_spriteDataAddress++)] = data;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+Byte PPU::GetStatus(void)
+{
+    Byte status = m_spriteOverflow << 5 | m_sprZeroHit << 6 | m_vblank << 7;
+
+    m_vblank = false;
+    m_firstWrite = true;
+
+    return (status);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+Byte PPU::GetData(void)
+{
+    Byte data = m_bus.Read(m_dataAddress);
+
+    m_dataAddress += m_dataAddrIncrement;
+    if (m_dataAddress < 0x3F00)
+    {
+        std::swap(data, m_dataBuffer);
+    }
+
+    return (data);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+Byte PPU::GetOAMData(void)
+{
+    return (m_spriteMemory[m_spriteDataAddress]);
+}
+
 } // !namespace NES
