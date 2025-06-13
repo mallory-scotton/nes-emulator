@@ -9,6 +9,18 @@
 namespace NES
 {
 
+///////////////////////////////////////////////////////////////////////////////
+Byte APU::ReadStatus(void)
+{
+    // TODO: Implement APU status reading logic
+    return (0x00);
+}
 
+///////////////////////////////////////////////////////////////////////////////
+void APU::WriteRegister(Byte address, Byte value)
+{
+    (void)address; (void)value;
+    // TODO: Implement APU register writing logic
+}
 
 } // !namespace NES
