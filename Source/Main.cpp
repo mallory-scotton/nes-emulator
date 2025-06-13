@@ -25,14 +25,32 @@ void sfml(NES::Cartridge& cartridge)
 
     std::shared_ptr<NES::Mapper> mapper = std::make_shared<NES::Mappers::NROM>(cartridge);
     NES::PictureBus pbus;
+    NES::PPU ppu(pbus);
+    NES::APU apu;
+    NES::Controller ctrl1, ctrl2;
+    std::unique_ptr<NES::CPU> cpu;
+    NES::MainBus mbus(ppu, apu, ctrl1, ctrl2, [&](NES::Byte value){
+        cpu->SkipOAMDMACycles();
+        auto pagePtr = mbus.GetPagePtr(value);
+        if (pagePtr != nullptr)
+        {
+            ppu.DoDMA(pagePtr);
+        }
+    });
+    cpu = std::make_unique<NES::CPU>(mbus);
 
-    if (!pbus.SetMapper(mapper))
+    if (!pbus.SetMapper(mapper) || !mbus.SetMapper(mapper))
     {
         std::cerr << "Failed to set mapper!" << std::endl;
         return;
     }
 
-    NES::PPU ppu(pbus);
+    ppu.SetVBlankCallback([&]() {
+        cpu->NMIInterrupt();
+    });
+
+    cpu->Reset();
+    ppu.Reset();
 
     texture.create(NES::NES_WIDTH, NES::NES_HEIGHT);
     sprite.setTexture(texture);
@@ -107,6 +125,8 @@ void sfml(NES::Cartridge& cartridge)
                         ppu.Step();
                         ppu.Step();
                         ppu.Step();
+
+                        cpu->Step();
                     }
                 }
             }
@@ -117,7 +137,7 @@ void sfml(NES::Cartridge& cartridge)
         if (focus && !pause)
         {
             const auto now = std::chrono::high_resolution_clock::now();
-            elapsedTime = now - lastWakeUp;
+            elapsedTime += now - lastWakeUp;
             lastWakeUp = now;
 
             while (elapsedTime > std::chrono::nanoseconds(559))
@@ -125,6 +145,8 @@ void sfml(NES::Cartridge& cartridge)
                 ppu.Step();
                 ppu.Step();
                 ppu.Step();
+
+                cpu->Step();
 
                 elapsedTime -= std::chrono::nanoseconds(559);
             }
