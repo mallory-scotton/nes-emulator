@@ -68,6 +68,11 @@ Byte Controller::Read(void)
 void Controller::SetKeyMapping(const std::vector<sf::Keyboard::Key>& keybinds)
 {
     // Ensure the keybinds vector has the correct size
+    if (keybinds.size() != static_cast<size_t>(Button::TOTAL))
+    {
+        return; // Invalid keybinds size
+    }
+
     m_keys = keybinds;
 }
 
