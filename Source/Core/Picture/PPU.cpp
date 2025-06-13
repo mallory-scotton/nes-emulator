@@ -3,6 +3,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "Core/Picture/PPU.hpp"
 #include "Core/Colors.hpp"
+#include <cstring>
 
 ///////////////////////////////////////////////////////////////////////////////
 // Namespace NES
@@ -267,9 +268,9 @@ void PPU::RenderStep(void)
         int index = y * SCANLINE_VISIBLE_DOTS * 4 + x * 4;
         Uint32 color = NES_COLORS[m_bus.ReadPalette(paletteAddr)];
 
-        m_buffer[index + 0] = (color >> 16) & 0xFF; // R
-        m_buffer[index + 1] = (color >> 8) & 0xFF;  // G
-        m_buffer[index + 2] = (color >> 0) & 0xFF;  // B
+        m_buffer[index + 0] = (color >> 24) & 0xFF; // R
+        m_buffer[index + 1] = (color >> 16) & 0xFF; // G
+        m_buffer[index + 2] = (color >> 8) & 0xFF;  // B
         m_buffer[index + 3] = 0xFF;                 // A
     }
     else if (m_cycle == SCANLINE_VISIBLE_DOTS + 1 && m_showBackground)
@@ -522,6 +523,23 @@ Byte PPU::GetData(void)
 Byte PPU::GetOAMData(void)
 {
     return (m_spriteMemory[m_spriteDataAddress]);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void PPU::DoDMA(const Byte* pagePtr)
+{
+    std::memcpy(
+        m_spriteMemory.data() + m_spriteDataAddress,
+        pagePtr, 256 - m_spriteDataAddress
+    );
+
+    if (m_spriteDataAddress)
+    {
+        std::memcpy(
+            m_spriteMemory.data(),
+            pagePtr + (256 - m_spriteDataAddress), m_spriteDataAddress
+        );
+    }
 }
 
 } // !namespace NES
