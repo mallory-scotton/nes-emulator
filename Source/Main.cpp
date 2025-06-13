@@ -14,7 +14,8 @@ void sfml(NES::Cartridge& cartridge)
 {
     sf::RenderWindow window(
         sf::VideoMode(NES::NES_WIDTH * 3, NES::NES_HEIGHT * 3),
-        "NES Emulator"
+        "NES Emulator",
+        sf::Style::Titlebar | sf::Style::Close
     );
     sf::Texture texture;
     sf::Sprite sprite;
