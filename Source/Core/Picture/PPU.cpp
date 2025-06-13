@@ -439,7 +439,7 @@ void PPU::SetMask(Byte mask)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-void PPU::SetOAMAdress(Byte address)
+void PPU::SetOAMAddress(Byte address)
 {
     m_spriteDataAddress = address;
 }
