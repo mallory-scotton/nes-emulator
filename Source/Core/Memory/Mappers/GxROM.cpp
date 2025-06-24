@@ -11,31 +11,43 @@ namespace NES::Mappers
 {
 
 ///////////////////////////////////////////////////////////////////////////////
-GxROM::GxROM(Cartridge& cartridge)
+GxROM::GxROM(Cartridge& cartridge, std::function<void(void)> callback)
     : Mapper(cartridge, 66)
+    , m_mirroring(MirroringType::VERTICAL)
+    , m_callback(callback)
 {}
 
 ///////////////////////////////////////////////////////////////////////////////
 Byte GxROM::ReadPGR(Address address)
 {
-    NES_UNUSED(address);
-    // TODO: Implement PGR read logic
+    if (address >= 0x8000)
+    {
+        return (m_cartridge.GetPGR()
+            [(m_pgrBank * 0x8000) + (address & 0x7FFF)]
+        );
+    }
     return (0x00);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 void GxROM::WritePGR(Address address, Byte value)
 {
-    NES_UNUSED(address);
-    NES_UNUSED(value);
-    // TODO: Implement PGR write logic
+    if (address >= 0x8000)
+    {
+        m_pgrBank = ((value & 0x30) >> 4);
+        m_chrBank = (value & 0x3);
+        m_mirroring = MirroringType::VERTICAL;
+    }
+    m_callback();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 Byte GxROM::ReadCHR(Address address)
 {
-    NES_UNUSED(address);
-    // TODO: Implement CHR read logic
+    if (address <= 0x1FFF)
+    {
+        return (m_cartridge.GetCHR()[m_chrBank * 0x2000 + address]);
+    }
     return (0x00);
 }
 
