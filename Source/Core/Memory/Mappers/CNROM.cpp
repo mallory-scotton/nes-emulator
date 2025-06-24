@@ -13,30 +13,35 @@ namespace NES::Mappers
 ///////////////////////////////////////////////////////////////////////////////
 CNROM::CNROM(Cartridge& cartridge)
     : Mapper(cartridge, 3)
-{}
+    , m_oneBank(false)
+    , m_selectCHR(0x00)
+{
+    if (cartridge.GetPGR().size() == 0x4000)
+    {
+        m_oneBank = true;
+    }
+}
 
 ///////////////////////////////////////////////////////////////////////////////
 Byte CNROM::ReadPGR(Address address)
 {
-    NES_UNUSED(address);
-    // TODO: Implement PGR read logic
-    return (0x00);
+    if (m_oneBank)
+    {
+        return (m_cartridge.GetPGR()[address - 0x8000]);
+    }
+    return (m_cartridge.GetPGR()[(address - 0x8000) & 0x3FFF]);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 void CNROM::WritePGR(Address address, Byte value)
 {
-    NES_UNUSED(address);
-    NES_UNUSED(value);
-    // TODO: Implement PGR write logic
+    m_selectCHR = value & 0x3;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 Byte CNROM::ReadCHR(Address address)
 {
-    NES_UNUSED(address);
-    // TODO: Implement CHR read logic
-    return (0x00);
+    return (m_cartridge.GetCHR()[address | (m_selectCHR << 13)]);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -44,7 +49,6 @@ void CNROM::WriteCHR(Address address, Byte value)
 {
     NES_UNUSED(address);
     NES_UNUSED(value);
-    // TODO: Implement CHR write logic
 }
 
 } // !namespace NES::Mappers
