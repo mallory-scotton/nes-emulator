@@ -23,7 +23,6 @@ void sfml(NES::Cartridge& cartridge)
     sf::RenderTexture renderTexture;
     bool useShader = true;
 
-    std::shared_ptr<NES::Mapper> mapper = std::make_shared<NES::Mappers::NROM>(cartridge);
     NES::PictureBus pbus;
     NES::PPU ppu(pbus);
     NES::APU apu;
@@ -38,6 +37,19 @@ void sfml(NES::Cartridge& cartridge)
         }
     });
     cpu = std::make_unique<NES::CPU>(mbus);
+    std::shared_ptr<NES::Mapper> mapper = NES::Mapper::CreateMapper(
+        cartridge.GetMapper(), cartridge, cpu->CreateIRQHandler(),
+        [&](void)
+        {
+            pbus.UpdateMirroring();
+        }
+    );
+
+    if (!mapper)
+    {
+        std::cerr << "Failed to create mapper!" << std::endl;
+        return;
+    }
 
     if (!pbus.SetMapper(mapper) || !mbus.SetMapper(mapper))
     {

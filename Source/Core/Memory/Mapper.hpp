@@ -7,6 +7,9 @@
 // Dependencies
 ///////////////////////////////////////////////////////////////////////////////
 #include "Utils.hpp"
+#include "Core/Processor/IRQHandler.hpp"
+#include <memory>
+#include <functional>
 
 ///////////////////////////////////////////////////////////////////////////////
 // Namespace NES
@@ -104,6 +107,25 @@ public:
     ///
     ///////////////////////////////////////////////////////////////////////////
     const Cartridge& GetCartridge(void) const;
+
+public:
+    ///////////////////////////////////////////////////////////////////////////
+    /// \brief
+    ///
+    /// \param type
+    /// \param cartridge
+    /// \param irq
+    /// \param callback
+    ///
+    /// \return
+    ///
+    ///////////////////////////////////////////////////////////////////////////
+    static std::unique_ptr<Mapper> CreateMapper(
+        Uint8 type,
+        Cartridge& cartridge,
+        IRQHandler& irq,
+        std::function<void(void)> callback
+    );
 };
 
 } // !namespace NES
