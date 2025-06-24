@@ -56,7 +56,12 @@ void GxROM::WriteCHR(Address address, Byte value)
 {
     NES_UNUSED(address);
     NES_UNUSED(value);
-    // TODO: Implement CHR write logic
+}
+
+///////////////////////////////////////////////////////////////////////////////
+MirroringType GxROM::GetMirroringType(void) const
+{
+    return (m_mirroring);
 }
 
 } // !namespace NES::Mappers

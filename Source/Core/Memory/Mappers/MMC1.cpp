@@ -188,4 +188,10 @@ void MMC1::WriteCHR(Address address, Byte value)
     }
 }
 
+///////////////////////////////////////////////////////////////////////////////
+MirroringType MMC1::GetMirroringType(void) const
+{
+    return (m_mirroring);
+}
+
 } // !namespace NES::Mappers

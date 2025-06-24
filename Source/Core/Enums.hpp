@@ -28,9 +28,9 @@ namespace NES
 ///////////////////////////////////////////////////////////////////////////////
 enum class MirroringType
 {
-    HORIZONTAL,             //<! Horizontal mirroring
-    VERTICAL,               //<! Vertical mirroring
-    FOUR_SCREEN,            //<! Four-screen mirroring
+    HORIZONTAL = 0,         //<! Horizontal mirroring
+    VERTICAL = 1,           //<! Vertical mirroring
+    FOUR_SCREEN = 8,        //<! Four-screen mirroring
     LOWER_SINGLE_SCREEN,    //<! Lower Single-screen mirroring
     UPPER_SINGLE_SCREEN     //<! Upper Single-screen mirroring
 };

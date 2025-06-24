@@ -181,7 +181,7 @@ void PictureBus::UpdateMirroring(void)
         return;
     }
 
-    switch (m_mapper->GetCartridge().GetMirroringType())
+    switch (m_mapper->GetMirroringType())
     {
     case MirroringType::HORIZONTAL:
         // Horizontal mirroring: Name tables 0 and 1 share the first screen,
