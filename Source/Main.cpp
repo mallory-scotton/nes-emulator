@@ -139,6 +139,8 @@ void sfml(NES::Cartridge& cartridge)
                         ppu.Step();
 
                         cpu->Step();
+
+                        apu.Step();
                     }
                 }
             }
@@ -159,6 +161,8 @@ void sfml(NES::Cartridge& cartridge)
                 ppu.Step();
 
                 cpu->Step();
+
+                apu.Step();
 
                 elapsedTime -= std::chrono::nanoseconds(559);
             }
