@@ -14,3 +14,5 @@
 #include "Core/Audio/Pulse.hpp"
 #include "Core/Audio/Triangle.hpp"
 #include "Core/Audio/Units.hpp"
+#include "Core/Audio/RingBuffer.hpp"
+#include "Core/Audio/Player.hpp"
