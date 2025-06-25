@@ -7,3 +7,10 @@
 // Dependencies
 ///////////////////////////////////////////////////////////////////////////////
 #include "Core/Audio/APU.hpp"
+#include "Core/Audio/Divider.hpp"
+#include "Core/Audio/DMC.hpp"
+#include "Core/Audio/FrameCounter.hpp"
+#include "Core/Audio/Noise.hpp"
+#include "Core/Audio/Pulse.hpp"
+#include "Core/Audio/Triangle.hpp"
+#include "Core/Audio/Units.hpp"

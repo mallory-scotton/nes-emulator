@@ -10,7 +10,7 @@
 #include <iostream>
 #include <chrono>
 
-void sfml(NES::Cartridge& cartridge)
+void sfml(const std::string& romPath)
 {
     sf::RenderWindow window(
         sf::VideoMode(NES::NES_WIDTH * 3, NES::NES_HEIGHT * 3),
@@ -23,46 +23,7 @@ void sfml(NES::Cartridge& cartridge)
     sf::RenderTexture renderTexture;
     bool useShader = true;
 
-    NES::PictureBus pbus;
-    NES::PPU ppu(pbus);
-    NES::APU apu;
-    NES::Controller ctrl1, ctrl2;
-    std::unique_ptr<NES::CPU> cpu;
-    NES::MainBus mbus(ppu, apu, ctrl1, ctrl2, [&](NES::Byte value){
-        cpu->SkipOAMDMACycles();
-        auto pagePtr = mbus.GetPagePtr(value);
-        if (pagePtr != nullptr)
-        {
-            ppu.DoDMA(pagePtr);
-        }
-    });
-    cpu = std::make_unique<NES::CPU>(mbus);
-    std::shared_ptr<NES::Mapper> mapper = NES::Mapper::CreateMapper(
-        cartridge.GetMapper(), cartridge, cpu->CreateIRQHandler(),
-        [&](void)
-        {
-            pbus.UpdateMirroring();
-        }
-    );
-
-    if (!mapper)
-    {
-        std::cerr << "Failed to create mapper!" << std::endl;
-        return;
-    }
-
-    if (!pbus.SetMapper(mapper) || !mbus.SetMapper(mapper))
-    {
-        std::cerr << "Failed to set mapper!" << std::endl;
-        return;
-    }
-
-    ppu.SetVBlankCallback([&]() {
-        cpu->NMIInterrupt();
-    });
-
-    cpu->Reset();
-    ppu.Reset();
+    NES::Emulator emulator(romPath);
 
     texture.create(NES::NES_WIDTH, NES::NES_HEIGHT);
     sprite.setTexture(texture);
@@ -85,11 +46,7 @@ void sfml(NES::Cartridge& cartridge)
     finalSprite.setTexture(renderTexture.getTexture());
     finalSprite.setScale(3.0f, 3.0f);
 
-    std::chrono::high_resolution_clock::time_point lastWakeUp = std::chrono::high_resolution_clock::now();
-    std::chrono::high_resolution_clock::duration elapsedTime = lastWakeUp - lastWakeUp;
-
     bool focus = true;
-    bool pause = false;
 
     sf::Event event;
     while (window.isOpen())
@@ -103,7 +60,6 @@ void sfml(NES::Cartridge& cartridge)
             else if (event.type == sf::Event::GainedFocus)
             {
                 focus = true;
-                lastWakeUp = std::chrono::high_resolution_clock::now();
             }
             else if (event.type == sf::Event::LostFocus)
             {
@@ -117,11 +73,7 @@ void sfml(NES::Cartridge& cartridge)
                 }
                 else if (event.key.code == sf::Keyboard::F2)
                 {
-                    pause = !pause;
-                    if (!pause)
-                    {
-                        lastWakeUp = std::chrono::high_resolution_clock::now();
-                    }
+                    emulator.TogglePause();
                 }
                 else if (event.key.code == sf::Keyboard::F1)
                 {
@@ -132,43 +84,20 @@ void sfml(NES::Cartridge& cartridge)
             {
                 if (event.key.code == sf::Keyboard::F3)
                 {
-                    for (int i = 0; i < 29781; i++)
-                    {
-                        ppu.Step();
-                        ppu.Step();
-                        ppu.Step();
-
-                        cpu->Step();
-
-                        apu.Step();
-                    }
+                    emulator.SkipOneCycle();
                 }
             }
         }
 
         window.clear(sf::Color::Black);
 
-        if (focus && !pause)
+        if (focus && !emulator.IsPaused())
         {
-            const auto now = std::chrono::high_resolution_clock::now();
-            elapsedTime += now - lastWakeUp;
-            lastWakeUp = now;
-
-            while (elapsedTime > std::chrono::nanoseconds(559))
-            {
-                ppu.Step();
-                ppu.Step();
-                ppu.Step();
-
-                cpu->Step();
-
-                apu.Step();
-
-                elapsedTime -= std::chrono::nanoseconds(559);
-            }
+            // Update emulator state
+            emulator.Update();
 
             // Update PPU screen with the latest frame
-            texture.update(ppu.GetScreen().data());
+            texture.update(emulator.GetScreenData());
 
             // Render to texture first (your NES emulator output would go here)
             renderTexture.clear(sf::Color::Black);
@@ -201,9 +130,7 @@ int main(int argc, char *argv[])
 
     try
     {
-        NES::Cartridge cartridge(argv[1]);
-        std::cout << "Cartridge loaded successfully!" << std::endl;
-        sfml(cartridge);
+        sfml(argv[1]);
     }
     catch (const std::exception &e)
     {

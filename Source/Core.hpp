@@ -14,3 +14,4 @@
 #include "Core/Shared.hpp"
 #include "Core/Processor.hpp"
 #include "Core/Audio.hpp"
+#include "Core/Emulator.hpp"
