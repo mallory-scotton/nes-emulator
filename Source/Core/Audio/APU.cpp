@@ -25,9 +25,7 @@ APU::APU(
     , m_timer(std::chrono::nanoseconds(
         int64_t(1e9) / int64_t(player.outputSampleRate)
     ))
-{
-    NES_UNUSED(callback);
-}
+{}
 
 ///////////////////////////////////////////////////////////////////////////////
 void APU::Step(void)
