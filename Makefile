@@ -7,7 +7,9 @@ CXX				=	g++
 LDFLAGS			=	-lsfml-graphics \
 					-lsfml-window \
 					-lsfml-system \
-					-lsfml-audio
+					-lsfml-audio \
+					-lpthread \
+					-lm
 INCLUDES		=	-I$(DIRECTORY)
 CXXFLAGS		=	-std=gnu++20
 DFLAGS			=	
