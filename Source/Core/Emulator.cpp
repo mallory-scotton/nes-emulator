@@ -16,8 +16,14 @@ namespace NES
 Emulator::Emulator(const Path& romPath)
     : m_cartridge(romPath)
     , m_cpu(m_mbus)
+    , m_player(static_cast<int>(
+        1.0 / std::chrono::duration_cast<
+            std::chrono::duration<double>
+        >(std::chrono::nanoseconds(1118)).count()
+    ))
     , m_ppu(m_pbus)
     , m_apu(
+        m_player,
         m_cpu.CreateIRQHandler(),
         std::bind(&Emulator::DMCDMACallback, this, std::placeholders::_1)
     )

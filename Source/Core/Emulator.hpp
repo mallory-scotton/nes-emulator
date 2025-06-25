@@ -43,6 +43,7 @@ private:
     ///////////////////////////////////////////////////////////////////////////
     Cartridge m_cartridge;              //<!
     CPU m_cpu;                          //<!
+    Audio::Player m_player;             //<!
     PictureBus m_pbus;                  //<!
     PPU m_ppu;                          //<!
     APU m_apu;                          //<!

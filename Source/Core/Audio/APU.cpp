@@ -10,8 +10,13 @@ namespace NES
 {
 
 ///////////////////////////////////////////////////////////////////////////////
-APU::APU(IRQHandler& irq, std::function<Byte(Address)> callback)
+APU::APU(
+    Audio::Player& player,
+    IRQHandler& irq,
+    std::function<Byte(Address)> callback
+)
 {
+    NES_UNUSED(player);
     NES_UNUSED(irq);
     NES_UNUSED(callback);
 }

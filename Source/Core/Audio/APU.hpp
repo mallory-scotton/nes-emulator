@@ -12,6 +12,7 @@
 #include "Core/Audio/Pulse.hpp"
 #include "Core/Audio/DMC.hpp"
 #include "Core/Audio/FrameCounter.hpp"
+#include "Core/Audio/Player.hpp"
 #include "Core/Processor/IRQHandler.hpp"
 #include <functional>
 
@@ -79,11 +80,16 @@ public:
     ///////////////////////////////////////////////////////////////////////////
     /// \brief
     ///
+    /// \param player
     /// \param irq
     /// \param callback
     ///
     ///////////////////////////////////////////////////////////////////////////
-    APU(IRQHandler& irq, std::function<Byte(Address)> callback);
+    APU(
+        Audio::Player& player,
+        IRQHandler& irq,
+        std::function<Byte(Address)> callback
+    );
 
 public:
     ///////////////////////////////////////////////////////////////////////////
