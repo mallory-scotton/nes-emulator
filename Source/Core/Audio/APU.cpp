@@ -18,6 +18,7 @@ APU::APU(
 )
     : m_pulse1(1)
     , m_pulse2(2)
+    , m_dmc(irq, callback)
     , m_counter(SetupFrameCounter(irq))
     , m_dividedByTwo(false)
     , m_queue(player.queue)
