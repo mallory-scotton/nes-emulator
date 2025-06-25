@@ -9,6 +9,50 @@
 namespace NES::Audio
 {
 
+///////////////////////////////////////////////////////////////////////////////
+Triangle::Triangle(void)
+    : lengthCounter()
+    , linearCounter()
+    , seqIndex(0)
+    , sequencer(0)
+    , period(0)
+{}
 
+///////////////////////////////////////////////////////////////////////////////
+void Triangle::SetPeriod(int period)
+{
+    this->period = period;
+    sequencer.SetPeriod(period);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void Triangle::Clock(void)
+{
+    if (lengthCounter.IsMuted() || linearCounter.counter == 0)
+    {
+        return;
+    }
+
+    if (sequencer.Clock())
+    {
+        seqIndex = (seqIndex + 1) % 32;
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+Byte Triangle::Sample(void) const
+{
+    return (Volume());
+}
+
+///////////////////////////////////////////////////////////////////////////////
+int Triangle::Volume(void) const
+{
+    if (seqIndex < 16)
+    {
+        return (15 - seqIndex);
+    }
+    return (seqIndex - 16);
+}
 
 } // !namespace NES::Audio
