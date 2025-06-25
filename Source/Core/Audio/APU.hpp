@@ -10,6 +10,7 @@
 #include "Core/Audio/Noise.hpp"
 #include "Core/Audio/Triangle.hpp"
 #include "Core/Audio/Pulse.hpp"
+#include "Core/Audio/Timer.hpp"
 #include "Core/Audio/DMC.hpp"
 #include "Core/Audio/FrameCounter.hpp"
 #include "Core/Audio/Player.hpp"
@@ -69,12 +70,15 @@ private:
     ///////////////////////////////////////////////////////////////////////////
     // Private members
     ///////////////////////////////////////////////////////////////////////////
-    Audio::Pulse m_pulse1;          //<! Square wave channel 1
-    Audio::Pulse m_pulse2;          //<! Square wave channel 2
-    Audio::Triangle m_triangle;     //<! Triangle wave channel
-    Audio::Noise m_noise;           //<! Noise channel
-    Audio::DMC m_dmc;               //<! Delta Modulation Channel
-    Audio::FrameCounter m_counter;  //<! Frame counter for APU timing
+    Audio::Pulse m_pulse1;              //<! Square wave channel 1
+    Audio::Pulse m_pulse2;              //<! Square wave channel 2
+    Audio::Triangle m_triangle;         //<! Triangle wave channel
+    Audio::Noise m_noise;               //<! Noise channel
+    Audio::DMC m_dmc;                   //<! Delta Modulation Channel
+    Audio::FrameCounter m_counter;      //<! Frame counter for APU timing
+    bool m_dividedByTwo;                //<! Indicate if it is divided by two
+    Audio::RingBuffer<float>& m_queue;  //<! Audio queue for the player
+    Audio::Timer m_timer;               //<! Timer for APU operations
 
 public:
     ///////////////////////////////////////////////////////////////////////////
@@ -114,6 +118,17 @@ public:
     ///
     ///////////////////////////////////////////////////////////////////////////
     void WriteRegister(Byte address, Byte value);
+
+private:
+    ///////////////////////////////////////////////////////////////////////////
+    /// \brief
+    ///
+    /// \param irq
+    ///
+    /// \return
+    ///
+    ///////////////////////////////////////////////////////////////////////////
+    Audio::FrameCounter SetupFrameCounter(IRQHandler& irq);
 };
 
 } // !namespace NES

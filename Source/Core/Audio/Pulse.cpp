@@ -2,6 +2,7 @@
 // Dependencies
 ///////////////////////////////////////////////////////////////////////////////
 #include "Core/Audio/Pulse.hpp"
+#include <cmath>
 
 ///////////////////////////////////////////////////////////////////////////////
 // Namespace NES::Audio
@@ -9,6 +10,45 @@
 namespace NES::Audio
 {
 
+///////////////////////////////////////////////////////////////////////////////
+Pulse::Pulse(int type)
+    : seqIndex(0)
+    , seqType(PulseDuty::Type::SEQ_50)
+    , sequencer(0)
+    , period(0)
+    , type(type)
+    , sweep(*this, type == 1)
+{}
 
+///////////////////////////////////////////////////////////////////////////////
+void Pulse::SetPeriod(int period)
+{
+    this->period = period;
+    sequencer.SetPeriod(period);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void Pulse::Clock(void)
+{
+    if (sequencer.Clock())
+    {
+        seqIndex = (8 + (seqIndex - 1)) % 8;
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+Byte Pulse::Sample(void) const
+{
+    if (
+        counter.IsMuted() ||
+        sweep.IsMuted(period, sweep.CalculateTarget(period)) ||
+        !PulseDuty::Active(seqType, seqIndex)
+    )
+    {
+        return (0);
+    }
+
+    return (volume.Get());
+}
 
 } // !namespace NES::Audio
