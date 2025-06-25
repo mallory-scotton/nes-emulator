@@ -2,6 +2,7 @@
 // Dependencies
 ///////////////////////////////////////////////////////////////////////////////
 #include "Core/Audio/APU.hpp"
+#include <chrono>
 
 ///////////////////////////////////////////////////////////////////////////////
 // Namespace NES
@@ -20,9 +21,10 @@ APU::APU(
     , m_counter(SetupFrameCounter(irq))
     , m_dividedByTwo(false)
     , m_queue(player.queue)
+    , m_timer(std::chrono::nanoseconds(
+        int64_t(1e9) / int64_t(player.outputSampleRate)
+    ))
 {
-    NES_UNUSED(player);
-    NES_UNUSED(irq);
     NES_UNUSED(callback);
 }
 
