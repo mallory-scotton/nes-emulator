@@ -25,7 +25,7 @@ CNROM::CNROM(Cartridge& cartridge)
 ///////////////////////////////////////////////////////////////////////////////
 Byte CNROM::ReadPGR(Address address)
 {
-    if (m_oneBank)
+    if (!m_oneBank)
     {
         return (m_cartridge.GetPGR()[address - 0x8000]);
     }

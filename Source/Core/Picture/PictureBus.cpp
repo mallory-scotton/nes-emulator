@@ -211,6 +211,12 @@ void PictureBus::UpdateMirroring(void)
         // Four-screen mirroring: Each name table is independent
         m_nameTables[0] = m_ram.size();
         break;
+    default:
+        for (int i = 0; i < 4; i++)
+        {
+            m_nameTables[i] = 0x000;
+        }
+        break;
     }
 }
 
