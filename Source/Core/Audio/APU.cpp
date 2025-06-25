@@ -58,11 +58,11 @@ Audio::FrameCounter APU::SetupFrameCounter(IRQHandler& irq)
             std::ref(m_pulse2.sweep),
             std::ref(m_pulse2.counter),
 
-            // std::ref(m_triangle.lengthCounter),
-            // std::ref(m_triangle.linearCounter),
+            std::ref(m_triangle.lengthCounter),
+            std::ref(m_triangle.linearCounter),
 
-            // std::ref(m_noise.volume),
-            // std::ref(m_noise.counter),
+            std::ref(m_noise.volume),
+            std::ref(m_noise.counter)
         },
         irq
     ));
