@@ -76,6 +76,8 @@ void PPU::Reset(void)
     m_showSprites = true;
     m_evenFrame = true;
     m_firstWrite = true;
+    m_hideEdgeSprites = false;
+    m_hideEdgeBackground = false;
     m_dataAddress = 0x00;
     m_cycle = 0;
     m_scanline = 0;
