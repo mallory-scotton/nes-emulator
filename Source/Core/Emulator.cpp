@@ -60,6 +60,8 @@ Emulator::Emulator(const Path& romPath)
 
     m_cpu.Reset();
     m_ppu.Reset();
+
+    m_player.Start();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
