@@ -117,7 +117,7 @@ public:
     /// \param value
     ///
     ///////////////////////////////////////////////////////////////////////////
-    void WriteRegister(Byte address, Byte value);
+    void WriteRegister(Address address, Byte value);
 
 private:
     ///////////////////////////////////////////////////////////////////////////
@@ -129,6 +129,27 @@ private:
     ///
     ///////////////////////////////////////////////////////////////////////////
     Audio::FrameCounter SetupFrameCounter(IRQHandler& irq);
+
+private:
+    ///////////////////////////////////////////////////////////////////////////
+    /// \brief
+    ///
+    /// \param pulse1
+    /// \param pulse2
+    /// \param triangle
+    /// \param noise
+    /// \param dmc
+    ///
+    /// \return
+    ///
+    ///////////////////////////////////////////////////////////////////////////
+    static float Mix(
+        Byte pulse1,
+        Byte pulse2,
+        Byte triangle,
+        Byte noise,
+        Byte dmc
+    );
 };
 
 } // !namespace NES
