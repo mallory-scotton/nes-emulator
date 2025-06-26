@@ -178,7 +178,7 @@ public:
             // Copy data in a single section
             std::copy(
                 m_buffer.begin() + read,
-                m_buffer.begin() + (newRead + count),
+                m_buffer.begin() + (read + count),
                 output
             );
 
