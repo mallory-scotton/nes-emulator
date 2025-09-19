@@ -53,15 +53,15 @@ This NES emulator is a sophisticated system-level emulation project that recreat
 ## 🖼️ Gallery
 
 ### Main Emulation Window
-![NES Emulator Screenshot](https://github.com/user-attachments/assets/2668c0b8-fb32-4f3a-8c4f-e11c72f53b4a)
+<video src="https://github.com/user-attachments/assets/2668c0b8-fb32-4f3a-8c4f-e11c72f53b4a"></video>
 *Real-time NES game emulation with authentic pixel-perfect rendering*
 
 ### CRT Shader Effects
-![CRT Shader Demo](https://github.com/user-attachments/assets/1fc22425-9565-4eff-a97c-cffd965f89b6)
+<video src="https://github.com/user-attachments/assets/1fc22425-9565-4eff-a97c-cffd965f89b6"></video>
 *Optional CRT monitor simulation with scanlines and phosphor effects*
 
 ### ROM Compatibility
-![Game Compatibility](https://github.com/user-attachments/assets/25849609-998a-4846-a6a3-06e563c13f4b)
+<video src="https://github.com/user-attachments/assets/25849609-998a-4846-a6a3-06e563c13f4b"></video>
 *Wide compatibility with popular NES titles*
 
 ## 📦 Installation
