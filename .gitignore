@@ -48,3 +48,6 @@ Cartridges/
 # IDE
 .vscode/
 .idea/
+
+# Emulators files
+*.nes
